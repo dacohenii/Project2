@@ -12,6 +12,6 @@ package project2;
 public class Procedure extends Operation{
 
     public ProofTable generateProofTable(Environment e){
-        
+        return new ProofTable();
     }
 }

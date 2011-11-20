@@ -34,6 +34,15 @@ public class Environment {
     public void addDefinition(String name, Definition defObject){
         definitionsAndOperations.put(name, defObject);
     }
+    /**
+     * Associates name with opObject in the map.
+     * @param name The name of the operation
+     * @param opObject A reference to the Operation object associated with
+     * name.
+     */
+    public void addOperation(String name, Operation opObject){
+        definitionsAndOperations.put(name, opObject);
+    }
 
     @Override
     public String toString(){
