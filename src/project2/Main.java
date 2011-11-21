@@ -8,12 +8,9 @@ package project2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,26 +22,32 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Tokenize the input file
-        String inputFileName =
-                JOptionPane.showInputDialog("Enter input filename");
-        File inputFile = new File(inputFileName);
+
+        File inputFile = new File("Project2Input.txt");
         ArrayList inputTokens = null;
         try {
             inputTokens = lex(inputFile);
-            System.out.println(inputTokens.toString());
         } catch (FileNotFoundException ex) {
             System.out.println("Bad input file");
         }
-        //Get an iterator for our tokens
-        Iterator<String> inputIterator = inputTokens.iterator();
 
-        //Create our environment object and populate it
+        
+        ListIterator<String> inputIterator = inputTokens.listIterator();
         Environment e = new Environment();
-        //Generate all of our definitions
-        Definition.generateDefinitions(inputIterator, e);
-        //Generate all of our operations
-        //new Operation(inputIterator, e);
+
+        e.populate(inputIterator);
+        
+       /* //Generate all of our definitions
+        Definition defs = new Definition(e, inputIterator);
+        defs.fillEnvironment();
+        
+        //now generate all of the operations
+        Operation ops = new Operation(e, inputIterator);
+        ops.fillEnvironment();
+        
+        Procedure proc = new Procedure(e, inputIterator);
+        proc.fillEnvironment();*/
+
         System.out.println(e.toString());
 
     }
@@ -70,13 +73,13 @@ public class Main {
             //Remove whitespace
             while (whiteSpaceTokenizer.hasMoreTokens()){
                 currentToken = whiteSpaceTokenizer.nextToken();
-                parenTokenizer = new StringTokenizer(currentToken, "()", true);
+                parenTokenizer = new StringTokenizer(currentToken, "(),", true);
                 //Grab parens
                 while(parenTokenizer.hasMoreTokens()){
                     finalToken = parenTokenizer.nextToken();
                     //Throw out commas
                     //finalToken = finalToken.replace(",", "");
-                    finalToken = finalToken.replaceAll("[\\s+,]", "");
+                    finalToken = finalToken.replaceAll("[\\s+]", "");
                     
                     tokens.add(finalToken);
                 }
